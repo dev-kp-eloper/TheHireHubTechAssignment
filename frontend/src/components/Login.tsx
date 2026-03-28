@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FiMail, FiLock } from 'react-icons/fi';
+import { API_URL } from '../utils/api';
 
 interface LoginProps {
   onLoginSuccess: (user: any) => void;
@@ -17,7 +18,7 @@ export default function Login({ onLoginSuccess }: LoginProps) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

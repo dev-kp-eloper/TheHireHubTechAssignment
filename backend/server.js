@@ -10,14 +10,27 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration for Vercel deployment
+// CORS: fixed URLs + optional env list + any *.vercel.app (preview deployments use unique hostnames)
+const corsOrigins = [
+  'https://the-hire-hub-tech-assignment.vercel.app',
+  'https://the-hire-hub-tech-assignment-devesh-pandagre.vercel.app',
+  'http://localhost:3000',
+  ...(process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',').map((o) => o.trim()) : []),
+];
+
 app.use(cors({
-  origin: [
-    'https://the-hire-hub-tech-assignment.vercel.app',
-    'https://the-hire-hub-tech-assignment-devesh-pandagre.vercel.app',
-    'http://localhost:3000',
-  ],
-  credentials: true
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (corsOrigins.includes(origin)) return callback(null, true);
+    try {
+      const { hostname } = new URL(origin);
+      if (hostname.endsWith('.vercel.app')) return callback(null, true);
+    } catch {
+      // ignore
+    }
+    callback(null, false);
+  },
+  credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
