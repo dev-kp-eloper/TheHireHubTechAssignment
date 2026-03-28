@@ -66,9 +66,11 @@ Open `http://localhost:3000` in your browser
 
 **Backend (.env):**
 ```
+# For local MongoDB:
 MONGODB_URI=mongodb://localhost:27017/thehurehub
-# Or for MongoDB Atlas:
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/thehurehub
+
+# For MongoDB Atlas (replace placeholders with your actual values):
+MONGODB_URI=mongodb+srv://<db_username>:<db_password>@<cluster_name>.mongodb.net/thehurehub
 
 PORT=5000
 ```
