@@ -13,10 +13,9 @@ const app = express();
 // CORS configuration for Vercel deployment
 app.use(cors({
   origin: [
-    'https://the-hire-hub-tech-assignment-qj6uicq4p-devesh-pandagre.vercel.app',
+    'https://the-hire-hub-tech-assignment.vercel.app',
+    'https://the-hire-hub-tech-assignment-devesh-pandagre.vercel.app',
     'http://localhost:3000',
-    'http://localhost:5000',
-    'https://*.vercel.app'
   ],
   credentials: true
 }));
@@ -41,8 +40,11 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 export default app;
