@@ -13,6 +13,7 @@ const app = express();
 // CORS configuration for Vercel deployment
 app.use(cors({
   origin: [
+    'https://the-hire-hub-tech-assignment-qj6uicq4p-devesh-pandagre.vercel.app',
     'http://localhost:3000',
     'http://localhost:5000',
     'https://*.vercel.app'
