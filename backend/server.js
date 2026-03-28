@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import jobRoutes from './routes/jobRoutes.js';
 import candidateRoutes from './routes/candidateRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import { isMockDataMode } from './config/dataMode.js';
 
 dotenv.config();
 
@@ -35,12 +36,12 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-if (process.env.MONGODB_URI) {
+if (isMockDataMode()) {
+  console.warn('MONGODB_URI not set — using in-memory dummy data (jobs & candidates).');
+} else {
   mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection failed:', err.message));
-} else {
-  console.warn('MONGODB_URI not set — database-backed routes will fail until configured.');
 }
 
 app.get('/', (req, res) => {
